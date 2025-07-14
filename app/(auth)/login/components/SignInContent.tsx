@@ -1,28 +1,28 @@
 import Link from "next/link";
-import LoginContent from "./LoginContent";
+import Login from "./Login";
+
 export const SignInContent = () => {
   return (
-    <div className="flex bg-white flex-col h-screen">
-      <div className="flex p-22 justify-start mt-18 md:mt-34 lg:mt-34">
-        <h1 className="font-bold text-4xl">Talents</h1>
+    <div className="flex flex-col justify-center px-6 py-10 md:px-16 lg:px-24 h-full">
+      <div className="mb-10">
+        <h1 className="text-4xl font-bold">Talents</h1>
       </div>
-      <div className="px-22">
-        <h1 className="text-6xl font-semibold tracking-normal">
+
+      <div className="mb-6">
+        <h2 className="text-4xl md:text-5xl font-semibold leading-tight">
           Olá, <br />
           Bem-Vindo(a)
-        </h1>
-        <p className="text-gray-400">
-          Seu site de gestão de gestão de candidatos
-        </p>
+        </h2>
+        <p className="text-gray-500 mt-2">Seu próximo emprego está aqui!</p>
       </div>
-      <div className="mt-12 px-22">
-        <LoginContent />
-        <h1>
-          Não tem uma conta? Crie
-          <Link href="CreateAccount">
-            <h1 className="text-blue-400 underline">Aqui</h1>
+
+      <div className="space-y-4">
+        <Login />
+        <div className="flex justify-center">
+          <Link href="/CreateAccount" className="text-blue-500 underline">
+            Não tem uma conta? Crie aqui
           </Link>
-        </h1>
+        </div>
       </div>
     </div>
   );
