@@ -14,6 +14,7 @@ export default function CreateJobVacancy() {
   const [jobPlace, setJobPlace] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [jobRequirements, setJobRequirements] = useState("");
+  const [createJobButton, setCreateJobButton] = useState(false);
 
   const { user } = useUser();
 
@@ -26,7 +27,7 @@ export default function CreateJobVacancy() {
       !toast.error("Preencha todos os campos.");
       return;
     }
-
+    setCreateJobButton(true);
     try {
       await createJobVacancy({
         id: 0,
@@ -48,12 +49,15 @@ export default function CreateJobVacancy() {
       toast.error("Erro ao criar vaga.");
       console.error(error);
     }
+    setTimeout(() => {
+      setCreateJobButton(false);
+    }, 3000);
   }
 
   return (
     <div>
       <Button
-        className="bg-green-500 text-white"
+        className={!createJobButton ? "bg-green-500 text-white" : "bg-gray-700"}
         onClick={toggleOpenCreateJobButton}
       >
         Criar nova vaga <Plus className="ml-2" />

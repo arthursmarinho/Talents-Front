@@ -26,7 +26,7 @@ import { Trash2, X } from "lucide-react";
 
 interface Vacancies {
   id: number;
-  place: string;
+  jobPlace: string;
   jobName: string;
   jobDesc: string;
   jobReq: string;
@@ -90,7 +90,7 @@ export default function CreatedVacancies() {
           </Sheet>
           <CardHeader onClick={() => setSelectedVacancyId(item.id)}>
             <CardTitle className="text-xl">{item.jobName}</CardTitle>
-            <CardDescription>{item.jobDesc}</CardDescription>
+            <CardDescription>{item.jobPlace}</CardDescription>
           </CardHeader>
           <CardFooter className="text-sm text-gray-600">
             {item.jobReq}
@@ -99,20 +99,20 @@ export default function CreatedVacancies() {
       ))}
 
       {selectedVacancy && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white w-full max-w-lg p-6 rounded-lg shadow-xl relative space-y-4">
+        <div className="fixed inset-0 z-40 bg-black/30">
+          <div className="fixed top-0 right-0 h-full w-full max-w-lg bg-white shadow-2xl z-50 overflow-y-auto p-6">
             <Button
               onClick={() => setSelectedVacancyId(null)}
-              className="absolute top-2 right-2 p-2 rounded-full"
+              className="absolute top-3 right-3 p-2 rounded-full"
               variant="ghost"
               size="icon"
             >
               <X className="w-5 h-5" />
             </Button>
 
-            <Card>
+            <Card className="p-6">
               <CardHeader>
-                <CardTitle className="text-2xl">
+                <CardTitle className="text-2xl font-semibold">
                   {selectedVacancy.jobName}
                 </CardTitle>
                 <CardDescription>{selectedVacancy.jobDesc}</CardDescription>

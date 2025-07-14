@@ -9,10 +9,12 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { doc, getDoc } from "firebase/firestore";
 import { toast } from "sonner";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function LoginContent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: any) => {
@@ -53,12 +55,24 @@ export default function LoginContent() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Digite seu email..."
         />
-        <Input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Digite sua senha..."
-        />
+
+        <div className="relative">
+          <Input
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Digite sua senha..."
+            className="pr-10"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+          >
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        </div>
+
         <Button type="submit" className="w-full">
           Fazer login
         </Button>

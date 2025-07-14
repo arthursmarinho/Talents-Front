@@ -13,6 +13,7 @@ export default function DashboardEnterprise() {
           <h1 className="font-bold text-2xl mb-8">
             Vagas criadas pela sua empresa
           </h1>
+          <p className="mb-4">Clique para mais detalhes</p>
           <CreatedVacancies />
         </div>
         <div className="flex justify-end p-6 px-14">
