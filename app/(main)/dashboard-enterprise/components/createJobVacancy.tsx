@@ -42,6 +42,7 @@ export default function CreateJobVacancy() {
       setJobName("");
       setJobDescription("");
       setJobRequirements("");
+      setJobPlace("");
       window.location.reload();
     } catch (error) {
       toast.error("Erro ao criar vaga.");
