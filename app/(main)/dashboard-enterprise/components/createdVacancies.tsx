@@ -1,0 +1,129 @@
+"use client";
+
+import {
+  deleteJobVacancy,
+  listJobVacancies,
+} from "@/services/jobVacancyService";
+import { useEffect, useState } from "react";
+import { useUser } from "@/context/UserContext";
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { Trash2, X } from "lucide-react";
+
+interface Vacancies {
+  id: number;
+  jobName: string;
+  jobDesc: string;
+  jobReq: string;
+  createdBy: string;
+}
+
+export default function CreatedVacancies() {
+  const [vacancies, setVacancies] = useState<Vacancies[]>([]);
+  const [selectedVacancyId, setSelectedVacancyId] = useState<number | null>(
+    null
+  );
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (user?.uid) {
+      listJobVacancies(user.uid)
+        .then(setVacancies)
+        .catch((err) => console.error("Erro ao buscar vagas:", err));
+    }
+  }, [user?.uid]);
+
+  const selectedVacancy = vacancies.find((v) => v.id === selectedVacancyId);
+
+  const deleteVacancy = async (id: number) => {
+    try {
+      await deleteJobVacancy(id);
+      setVacancies((prev) => prev.filter((v) => v.id !== id));
+    } catch (err) {
+      console.error("Erro ao deletar vaga:", err);
+    }
+  };
+
+  return (
+    <div>
+      {vacancies.map((item) => (
+        <Card
+          key={item.id}
+          className="cursor-pointer hover:shadow-lg transition relative"
+        >
+          <Sheet>
+            <SheetTrigger>
+              <Trash2 className="w-5 h-5 text-red-500 hover:text-red-700 absolute top-2 right-2 cursor-pointer" />
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>Are you absolutely sure?</SheetTitle>
+                <SheetDescription>
+                  This action cannot be undone. This will permanently delete
+                  your account and remove your data from our servers.
+                </SheetDescription>
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteVacancy(item.id);
+                  }}
+                  variant="destructive"
+                >
+                  Apagar
+                </Button>
+              </SheetHeader>
+            </SheetContent>
+          </Sheet>
+          <CardHeader onClick={() => setSelectedVacancyId(item.id)}>
+            <CardTitle className="text-xl">{item.jobName}</CardTitle>
+            <CardDescription>{item.jobDesc}</CardDescription>
+          </CardHeader>
+          <CardFooter className="text-sm text-gray-600">
+            {item.jobReq}
+          </CardFooter>
+        </Card>
+      ))}
+
+      {selectedVacancy && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white w-full max-w-lg p-6 rounded-lg shadow-xl relative space-y-4">
+            <Button
+              onClick={() => setSelectedVacancyId(null)}
+              className="absolute top-2 right-2 p-2 rounded-full"
+              variant="ghost"
+              size="icon"
+            >
+              <X className="w-5 h-5" />
+            </Button>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-2xl">
+                  {selectedVacancy.jobName}
+                </CardTitle>
+                <CardDescription>{selectedVacancy.jobDesc}</CardDescription>
+              </CardHeader>
+              <CardFooter className="text-gray-700 font-medium">
+                {selectedVacancy.jobReq}
+              </CardFooter>
+            </Card>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
