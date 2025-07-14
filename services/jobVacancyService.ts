@@ -6,6 +6,7 @@ export interface CreateJobVacancyDto {
   id: number;
   jobName: string;
   jobDesc: string;
+  jobPlace: string;
   jobReq: string;
   createdBy: string;
 }

@@ -3,17 +3,15 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
-import { useEffect, useState } from "react";
-import {
-  createJobVacancy,
-  listJobVacancies,
-} from "@/services/jobVacancyService";
+import { useState } from "react";
+import { createJobVacancy } from "@/services/jobVacancyService";
 import { useUser } from "@/context/UserContext";
 import { toast } from "sonner";
 
 export default function CreateJobVacancy() {
   const [isCreateJobOpen, setIsCreateJobOpen] = useState(false);
   const [jobName, setJobName] = useState("");
+  const [jobPlace, setJobPlace] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [jobRequirements, setJobRequirements] = useState("");
 
@@ -24,8 +22,8 @@ export default function CreateJobVacancy() {
   }
 
   async function handleSave() {
-    if (!jobName || !jobDescription || !jobRequirements) {
-      toast.error("Preencha todos os campos.");
+    if (!jobName || !jobDescription || !jobRequirements || !jobPlace) {
+      !toast.error("Preencha todos os campos.");
       return;
     }
 
@@ -35,6 +33,7 @@ export default function CreateJobVacancy() {
         jobName,
         jobDesc: jobDescription,
         jobReq: jobRequirements,
+        jobPlace: jobPlace,
         createdBy: user?.uid || "",
       });
 
@@ -43,6 +42,7 @@ export default function CreateJobVacancy() {
       setJobName("");
       setJobDescription("");
       setJobRequirements("");
+      window.location.reload();
     } catch (error) {
       toast.error("Erro ao criar vaga.");
       console.error(error);
@@ -89,6 +89,15 @@ export default function CreateJobVacancy() {
                 maxLength={300}
               />
               <p className="text-gray-400">{jobRequirements.length}/300</p>
+            </div>
+            <div className="flex flex-row gap-2">
+              <Input
+                placeholder="Digite o local da vaga"
+                value={jobPlace}
+                onChange={(e) => setJobPlace(e.target.value)}
+                maxLength={30}
+              />
+              <p className="text-gray-400">{jobPlace.length}/30</p>
             </div>
 
             <div className="flex justify-end space-x-2">

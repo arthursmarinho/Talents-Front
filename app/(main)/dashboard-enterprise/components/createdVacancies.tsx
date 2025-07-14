@@ -26,6 +26,7 @@ import { Trash2, X } from "lucide-react";
 
 interface Vacancies {
   id: number;
+  place: string;
   jobName: string;
   jobDesc: string;
   jobReq: string;
@@ -59,7 +60,7 @@ export default function CreatedVacancies() {
   };
 
   return (
-    <div>
+    <div className="space-y-6">
       {vacancies.map((item) => (
         <Card
           key={item.id}
@@ -71,10 +72,9 @@ export default function CreatedVacancies() {
             </SheetTrigger>
             <SheetContent>
               <SheetHeader>
-                <SheetTitle>Are you absolutely sure?</SheetTitle>
+                <SheetTitle>Deseja apagar?</SheetTitle>
                 <SheetDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
+                  Essa ação não podera ser desfeita!
                 </SheetDescription>
                 <Button
                   onClick={(e) => {
