@@ -28,6 +28,7 @@ import { Button } from "@/components/ui/button";
 import { Trash2, X, FileText, CheckCircle, XCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { JobApplication, ApplicationStatus } from "@/interfaces/JobApplication";
+import { toast } from "sonner"; // Certifique-se de ter o 'sonner' instalado e configurado
 
 export default function CreatedVacancies() {
   const [vacancies, setVacancies] = useState<JobVacancyWithApplications[]>([]);
@@ -72,8 +73,10 @@ export default function CreatedVacancies() {
       await deleteJobVacancy(id);
       setVacancies((prev) => prev.filter((v) => v.id !== id));
       setSelectedVacancyId(null);
+      toast.success("Vaga deletada com sucesso!");
     } catch (err) {
       console.error("Erro ao deletar vaga:", err);
+      toast.error("Erro ao deletar vaga.");
     }
   };
 
@@ -86,8 +89,10 @@ export default function CreatedVacancies() {
       setSelectedApplications((prev) =>
         prev.map((app) => (app.id === applicationId ? { ...app, status } : app))
       );
+      toast.success(`Candidatura ${status.toLowerCase()} com sucesso!`);
     } catch (err) {
       console.error("Erro ao atualizar status da candidatura:", err);
+      toast.error("Erro ao atualizar status da candidatura.");
     }
   };
 
@@ -204,23 +209,27 @@ export default function CreatedVacancies() {
                             variant="outline"
                             size="icon"
                             onClick={() => {
-                              let uint8Array: Uint8Array;
-                              if (typeof app.resumeData === "string") {
-                                const binaryString = atob(app.resumeData);
-                                const len = binaryString.length;
-                                uint8Array = new Uint8Array(len);
-                                for (let i = 0; i < len; i++) {
-                                  uint8Array[i] = binaryString.charCodeAt(i);
-                                }
-                              } else {
-                                uint8Array = new Uint8Array(app.resumeData);
+                              try {
+                                const uint8Array = new Uint8Array(
+                                  app.resumeData
+                                );
+
+                                const blob = new Blob([uint8Array], {
+                                  type: "application/pdf",
+                                });
+                                const url = URL.createObjectURL(blob);
+                                window.open(url, "_blank");
+
+                                setTimeout(
+                                  () => URL.revokeObjectURL(url),
+                                  1000
+                                );
+                              } catch (error) {
+                                console.error("Erro ao abrir PDF:", error);
+                                toast.error(
+                                  "Não foi possível abrir o currículo. Verifique o console para mais detalhes."
+                                );
                               }
-                              const blob = new Blob([uint8Array], {
-                                type: "application/pdf",
-                              });
-                              const url = URL.createObjectURL(blob);
-                              window.open(url, "_blank");
-                              URL.revokeObjectURL(url);
                             }}
                             title="Visualizar Currículo"
                           >
