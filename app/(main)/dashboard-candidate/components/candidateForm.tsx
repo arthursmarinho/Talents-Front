@@ -61,10 +61,13 @@ export default function CandidateForm({ jobId }: { jobId: number }) {
     formData.append("jobId", jobId.toString());
     formData.append("candidateId", user.uid);
 
-    const res = await fetch("http://localhost:3000/job-applications/upload", {
-      method: "POST",
-      body: formData,
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/job-applications/upload`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
     if (res.ok) {
       toast.success("Currículo enviado com sucesso!");
