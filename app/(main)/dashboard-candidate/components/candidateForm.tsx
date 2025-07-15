@@ -111,10 +111,7 @@ export default function CandidateForm({ jobId }: { jobId: number }) {
         >
           {getStatusText(applicationStatus)}
           {applicationStatus === ApplicationStatus.REJECTED && (
-            <p className="text-sm mt-1">
-              Você pode tentar se candidatar novamente com um novo currículo, se
-              desejar.
-            </p>
+            <p className="text-sm mt-1"></p>
           )}
         </div>
       ) : (
