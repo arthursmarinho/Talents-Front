@@ -109,7 +109,7 @@ export default function CreatedVacancies() {
 
   return (
     <div className="space-y-6">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md mx-auto">
         <Input
           type="text"
           placeholder="Buscar vaga por nome"

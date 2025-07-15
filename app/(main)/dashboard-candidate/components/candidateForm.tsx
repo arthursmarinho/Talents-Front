@@ -98,7 +98,7 @@ export default function CandidateForm({ jobId }: { jobId: number }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
+    <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto">
       {applicationStatus !== null ? (
         <div
           className={`p-3 rounded-md text-center font-semibold ${

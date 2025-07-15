@@ -54,7 +54,7 @@ export default function ListVacancies() {
 
   return (
     <div className="space-y-6">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md mx-auto">
         <Input
           type="text"
           placeholder="Buscar vaga por nome"
@@ -89,8 +89,8 @@ export default function ListVacancies() {
       )}
 
       {selectedVacancy && (
-        <div className="fixed inset-0 z-40 bg-black/30">
-          <div className="fixed top-0 right-0 h-full w-full max-w-lg bg-white shadow-2xl z-50 overflow-y-auto p-6">
+        <div className="fixed inset-0 z-40 bg-black/30 flex justify-end">
+          <div className="w-full md:max-w-lg h-full bg-white p-6 overflow-y-auto shadow-2xl">
             <Button
               onClick={() => setSelectedVacancyId(null)}
               className="absolute top-3 right-3 p-2 rounded-full"

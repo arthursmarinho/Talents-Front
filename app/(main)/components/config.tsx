@@ -14,18 +14,10 @@ import {
 } from "@/components/ui/sheet";
 import { Cog } from "lucide-react";
 import Link from "next/link";
+import Profile from "./profile";
 
 export default function Config() {
   const router = useRouter();
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      router.push("/login");
-    } catch (error) {
-      console.error("Erro ao fazer logout:", error);
-    }
-  };
 
   return (
     <div>
@@ -40,8 +32,9 @@ export default function Config() {
             <SheetTitle>Configurações</SheetTitle>
             <SheetDescription className="space-y-4 mt-2">
               <Link href="/login">
-                <Button>Trocar de conta</Button>
+                <Button className="mb-6">Trocar de conta</Button>
               </Link>
+              <Profile />
             </SheetDescription>
           </SheetHeader>
         </SheetContent>
