@@ -1,11 +1,9 @@
 "use client";
 
-import {
-  deleteJobVacancy,
-  listJobVacanciesById,
-} from "@/services/jobVacancyService";
+import { Input } from "@/components/ui/input";
+import { Vacancies } from "@/interfaces/Vacancies";
+import { listJobVacancies } from "@/services/jobVacancyService";
 import { useEffect, useState } from "react";
-import { useUser } from "@/context/UserContext";
 import {
   Card,
   CardDescription,
@@ -21,42 +19,26 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 import { Trash2, X } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Vacancies } from "@/interfaces/Vacancies";
-
-export default function CreatedVacancies() {
+import { Button } from "@/components/ui/button";
+import CandidateForm from "./candidateForm";
+export default function ListVacancies() {
   const [vacancies, setVacancies] = useState<Vacancies[]>([]);
   const [selectedVacancyId, setSelectedVacancyId] = useState<number | null>(
     null
   );
   const [searchBar, setSearchBar] = useState("");
 
-  const { user } = useUser();
-
-  useEffect(() => {
-    if (user?.uid) {
-      listJobVacanciesById(user.uid)
-        .then(setVacancies)
-        .catch((err) => console.error("Erro ao buscar vagas:", err));
-    }
-  }, [user?.uid]);
-
-  const selectedVacancy = vacancies.find((v) => v.id === selectedVacancyId);
-
-  const deleteVacancy = async (id: number) => {
-    try {
-      await deleteJobVacancy(id);
-      setVacancies((prev) => prev.filter((v) => v.id !== id));
-    } catch (err) {
-      console.error("Erro ao deletar vaga:", err);
-    }
-  };
-
   const filteredVacancies = vacancies.filter((v) =>
     v.jobName.toLowerCase().includes(searchBar.toLowerCase())
   );
+
+  useEffect(() => {
+    listJobVacancies()
+      .then(setVacancies)
+      .catch((err) => console.error("Erro ao buscar vagas:", err));
+  }, []);
+  const selectedVacancy = vacancies.find((v) => v.id === selectedVacancyId);
 
   return (
     <div className="space-y-6">
@@ -75,28 +57,6 @@ export default function CreatedVacancies() {
           key={item.id}
           className="cursor-pointer hover:shadow-lg transition relative"
         >
-          <Sheet>
-            <SheetTrigger>
-              <Trash2 className="w-5 h-5 text-red-500 hover:text-red-700 absolute top-2 right-2 cursor-pointer" />
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Deseja apagar?</SheetTitle>
-                <SheetDescription>
-                  Essa ação não podera ser desfeita!
-                </SheetDescription>
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteVacancy(item.id);
-                  }}
-                  variant="destructive"
-                >
-                  Apagar
-                </Button>
-              </SheetHeader>
-            </SheetContent>
-          </Sheet>
           <CardHeader onClick={() => setSelectedVacancyId(item.id)}>
             <CardTitle className="text-xl">{item.jobName}</CardTitle>
             <CardDescription>{item.jobPlace}</CardDescription>
@@ -129,6 +89,7 @@ export default function CreatedVacancies() {
               <CardFooter className="text-gray-700 font-medium">
                 {selectedVacancy.jobReq}
               </CardFooter>
+              <CandidateForm jobId={selectedVacancy.id} />
             </Card>
           </div>
         </div>

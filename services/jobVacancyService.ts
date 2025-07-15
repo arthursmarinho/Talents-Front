@@ -16,10 +16,15 @@ export const createJobVacancy = async (data: CreateJobVacancyDto) => {
   return response.data;
 };
 
-export const listJobVacancies = async (uid: string) => {
+export const listJobVacanciesById = async (uid: string) => {
   const response = await axios.get(`${API_URL}/job-vacancies/vacancy`, {
     params: { createdBy: uid },
   });
+  return response.data;
+};
+
+export const listJobVacancies = async () => {
+  const response = await axios.get(`${API_URL}/job-vacancies/vacancy`);
   return response.data;
 };
 
