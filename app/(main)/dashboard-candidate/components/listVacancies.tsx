@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import CandidateForm from "./candidateForm";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ListVacancies() {
   const [vacancies, setVacancies] = useState<Vacancies[]>([]);
@@ -21,7 +22,7 @@ export default function ListVacancies() {
     null
   );
   const [searchBar, setSearchBar] = useState("");
-
+  const [isLoading, setIsLoading] = useState(true);
   const filteredVacancies = vacancies.filter((v) =>
     v.jobName.toLowerCase().includes(searchBar.toLowerCase())
   );
@@ -44,6 +45,11 @@ export default function ListVacancies() {
       .catch((err) => console.error("Erro ao buscar vagas:", err));
   }, []);
 
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const selectedVacancy = vacancies.find((v) => v.id === selectedVacancyId);
 
   return (
@@ -57,22 +63,30 @@ export default function ListVacancies() {
           className="w-full px-4 py-2 border rounded mb-4"
         />
       </div>
-
-      {filteredVacancies.map((item) => (
-        <Card
-          key={item.id}
-          className="cursor-pointer hover:shadow-lg transition relative"
-          onClick={() => setSelectedVacancyId(item.id)}
-        >
-          <CardHeader>
-            <CardTitle className="text-xl">{item.jobName}</CardTitle>
-            <CardDescription>{item.jobPlace}</CardDescription>
-          </CardHeader>
-          <CardFooter className="text-sm text-gray-600">
-            {item.jobReq}
-          </CardFooter>
-        </Card>
-      ))}
+      {isLoading ? (
+        <div className="flex flex-col gap-4 mt-12">
+          <Skeleton className="w-40 h-4 rounded mb-2" />
+          <Skeleton className="w-56 h-4 rounded" />
+        </div>
+      ) : (
+        <div className="flex flex-col gap-4 mt-12">
+          {filteredVacancies.map((item) => (
+            <Card
+              key={item.id}
+              className="cursor-pointer hover:shadow-lg transition relative"
+              onClick={() => setSelectedVacancyId(item.id)}
+            >
+              <CardHeader>
+                <CardTitle className="text-xl">{item.jobName}</CardTitle>
+                <CardDescription>{item.jobPlace}</CardDescription>
+              </CardHeader>
+              <CardFooter className="text-sm text-gray-600">
+                {item.jobReq}
+              </CardFooter>
+            </Card>
+          ))}{" "}
+        </div>
+      )}
 
       {selectedVacancy && (
         <div className="fixed inset-0 z-40 bg-black/30">

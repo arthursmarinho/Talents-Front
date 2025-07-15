@@ -29,6 +29,7 @@ import { Trash2, X, FileText, CheckCircle, XCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { JobApplication, ApplicationStatus } from "@/interfaces/JobApplication";
 import { toast } from "sonner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CreatedVacancies() {
   const [vacancies, setVacancies] = useState<JobVacancyWithApplications[]>([]);
@@ -39,6 +40,7 @@ export default function CreatedVacancies() {
   const [selectedApplications, setSelectedApplications] = useState<
     JobApplication[]
   >([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { user } = useUser();
 
   const fetchVacancies = async () => {
@@ -55,6 +57,11 @@ export default function CreatedVacancies() {
   useEffect(() => {
     fetchVacancies();
   }, [user?.uid]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (selectedVacancyId) {
@@ -111,56 +118,62 @@ export default function CreatedVacancies() {
           className="w-full px-4 py-2 border rounded mb-4"
         />
       </div>
+      {isLoading ? (
+        <div className="flex flex-col gap-4 mt-12">
+          <Skeleton className="w-40 h-4 rounded mb-2" />
+          <Skeleton className="w-56 h-4 rounded" />
+        </div>
+      ) : (
+        <div className="flex flex-col gap-4 mt-12">
+          {filteredVacancies.map((item) => (
+            <Card
+              key={item.id}
+              className="cursor-pointer hover:shadow-lg transition relative"
+            >
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="absolute top-2 right-2 p-1 rounded-full text-red-500 hover:text-red-700"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <Trash2 className="w-5 h-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent>
+                  <SheetHeader>
+                    <SheetTitle>Deseja apagar?</SheetTitle>
+                    <SheetDescription>
+                      Essa ação não poderá ser desfeita!
+                    </SheetDescription>
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteVacancy(item.id);
+                      }}
+                      variant="destructive"
+                    >
+                      Apagar
+                    </Button>
+                  </SheetHeader>
+                </SheetContent>
+              </Sheet>
 
-      {filteredVacancies.map((item) => (
-        <Card
-          key={item.id}
-          className="cursor-pointer hover:shadow-lg transition relative"
-        >
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute top-2 right-2 p-1 rounded-full text-red-500 hover:text-red-700"
-                onClick={(e) => e.stopPropagation()}
+              <CardHeader onClick={() => setSelectedVacancyId(item.id)}>
+                <CardTitle className="text-xl">{item.jobName}</CardTitle>
+                <CardDescription>{item.jobPlace}</CardDescription>
+              </CardHeader>
+              <CardFooter
+                className="text-sm text-gray-600"
+                onClick={() => setSelectedVacancyId(item.id)}
               >
-                <Trash2 className="w-5 h-5" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Deseja apagar?</SheetTitle>
-                <SheetDescription>
-                  Essa ação não poderá ser desfeita!
-                </SheetDescription>
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteVacancy(item.id);
-                  }}
-                  variant="destructive"
-                >
-                  Apagar
-                </Button>
-              </SheetHeader>
-            </SheetContent>
-          </Sheet>
-
-          <CardHeader onClick={() => setSelectedVacancyId(item.id)}>
-            <CardTitle className="text-xl">{item.jobName}</CardTitle>
-            <CardDescription onClick={() => setSelectedVacancyId(item.id)}>
-              {item.jobPlace}
-            </CardDescription>
-          </CardHeader>
-          <CardFooter
-            className="text-sm text-gray-600"
-            onClick={() => setSelectedVacancyId(item.id)}
-          >
-            {item.jobReq}
-          </CardFooter>
-        </Card>
-      ))}
+                {item.jobReq}
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      )}
 
       {selectedVacancy && (
         <div className="fixed inset-0 z-40 bg-black/30">
