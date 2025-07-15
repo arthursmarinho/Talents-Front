@@ -11,17 +11,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
 import CandidateForm from "./candidateForm";
+
 export default function ListVacancies() {
   const [vacancies, setVacancies] = useState<Vacancies[]>([]);
   const [selectedVacancyId, setSelectedVacancyId] = useState<number | null>(
@@ -35,9 +28,22 @@ export default function ListVacancies() {
 
   useEffect(() => {
     listJobVacancies()
-      .then(setVacancies)
+      .then((data) => {
+        const mapped = data
+          .filter((v) => typeof v.id === "number")
+          .map((v) => ({
+            id: v.id as number,
+            jobName: v.jobName,
+            jobPlace: v.jobPlace,
+            jobReq: v.jobReq,
+            jobDesc: v.jobDesc,
+            createdBy: v.createdBy,
+          }));
+        setVacancies(mapped);
+      })
       .catch((err) => console.error("Erro ao buscar vagas:", err));
   }, []);
+
   const selectedVacancy = vacancies.find((v) => v.id === selectedVacancyId);
 
   return (

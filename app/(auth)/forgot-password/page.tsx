@@ -6,6 +6,7 @@ import { auth } from "@/lib/firebase/firebase";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -38,6 +39,9 @@ export default function ForgotPassword() {
         <Button type="submit" className="w-full">
           Enviar link de recuperação
         </Button>
+        <Link href="/login" className="text-blue-400 underline">
+          Voltar
+        </Link>
       </form>
     </div>
   );
