@@ -20,7 +20,7 @@ export default function Header() {
         </span>
         <div className="flex items-center gap-2 text-gray-600">
           <span>
-            Tipo de conta:
+            Tipo de conta:{" "}
             <span className="font-medium text-gray-700">
               {user && userTypeLabel(user.type)}
             </span>
