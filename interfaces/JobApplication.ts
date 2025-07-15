@@ -1,7 +1,7 @@
 export enum ApplicationStatus {
-  PENDING = "Pendente",
-  APPROVED = "Aprovado",
-  REJECTED = "Rejeitado",
+  PENDING = "PENDING",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
 }
 
 export interface JobApplication {
