@@ -149,9 +149,14 @@ export default function CreatedVacancies() {
 
           <CardHeader onClick={() => setSelectedVacancyId(item.id)}>
             <CardTitle className="text-xl">{item.jobName}</CardTitle>
-            <CardDescription>{item.jobPlace}</CardDescription>
+            <CardDescription onClick={() => setSelectedVacancyId(item.id)}>
+              {item.jobPlace}
+            </CardDescription>
           </CardHeader>
-          <CardFooter className="text-sm text-gray-600">
+          <CardFooter
+            className="text-sm text-gray-600"
+            onClick={() => setSelectedVacancyId(item.id)}
+          >
             {item.jobReq}
           </CardFooter>
         </Card>

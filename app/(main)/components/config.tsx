@@ -13,6 +13,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Cog } from "lucide-react";
+import Link from "next/link";
 
 export default function Config() {
   const router = useRouter();
@@ -38,7 +39,9 @@ export default function Config() {
           <SheetHeader>
             <SheetTitle>Configurações</SheetTitle>
             <SheetDescription className="space-y-4 mt-2">
-              <Button onClick={handleLogout}>Trocar de conta</Button>
+              <Link href="/login">
+                <Button>Trocar de conta</Button>
+              </Link>
             </SheetDescription>
           </SheetHeader>
         </SheetContent>

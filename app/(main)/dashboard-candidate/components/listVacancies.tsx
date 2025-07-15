@@ -62,8 +62,9 @@ export default function ListVacancies() {
         <Card
           key={item.id}
           className="cursor-pointer hover:shadow-lg transition relative"
+          onClick={() => setSelectedVacancyId(item.id)}
         >
-          <CardHeader onClick={() => setSelectedVacancyId(item.id)}>
+          <CardHeader>
             <CardTitle className="text-xl">{item.jobName}</CardTitle>
             <CardDescription>{item.jobPlace}</CardDescription>
           </CardHeader>
