@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 export default function Register() {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("candidate");
@@ -38,6 +39,7 @@ export default function Register() {
       );
       const user = userCredential.user;
       await setDoc(doc(db, "users", user.uid), {
+        username: username,
         email: user.email,
         type: userType,
       });
@@ -58,7 +60,11 @@ export default function Register() {
         className="w-full max-w-sm flex flex-col gap-4"
       >
         <h2 className="text-2xl font-semibold text-center mb-2">Criar Conta</h2>
-
+        <Input
+          placeholder="Digite seu nome de usuário"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
         <Input
           placeholder="Digite seu email"
           value={email}

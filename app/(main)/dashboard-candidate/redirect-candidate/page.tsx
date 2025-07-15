@@ -9,8 +9,8 @@ export default function RedirectCandidate() {
         </h1>
 
         <p className="mb-8 text-gray-300">
-          Acesse com uma conta empresarial ou continue para a área de
-          candidatos.
+          Acesse com uma conta de candidato ou continue para a área de
+          empresarial.
         </p>
 
         <div className="flex flex-col gap-4">
@@ -21,10 +21,10 @@ export default function RedirectCandidate() {
             Ir para a tela de login
           </Link>
           <Link
-            href="/dashboard-candidate"
+            href="/dashboard-enterprise "
             className="border border-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-black transition"
           >
-            Ir para a tela de candidatos
+            Ir para a tela de empresa
           </Link>
         </div>
       </div>

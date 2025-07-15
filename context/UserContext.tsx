@@ -7,6 +7,7 @@ import { doc, getDoc } from "firebase/firestore";
 
 interface UserData {
   uid: string;
+  username: string;
   email: string;
   type: string;
 }
@@ -35,6 +36,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
           setUser({
             uid: firebaseUser.uid,
             email: firebaseUser.email || "",
+            username: userData.username,
             type: userData.type,
           });
         }

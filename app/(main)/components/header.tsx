@@ -15,12 +15,12 @@ export default function Header() {
 
       <div className="flex flex-col items-end gap-0 text-sm sm:text-base">
         <span className="text-gray-800">
-          Bem-vindo,{" "}
-          <span className="font-semibold text-blue-600">{user?.email}</span>
+          Bem-vindo,{"  "}
+          <span className="font-semibold text-blue-600"> {user?.username}</span>
         </span>
         <div className="flex items-center gap-2 text-gray-600">
           <span>
-            Tipo de conta:{" "}
+            Tipo de conta:
             <span className="font-medium text-gray-700">
               {user && userTypeLabel(user.type)}
             </span>
