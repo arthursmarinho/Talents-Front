@@ -1,5 +1,5 @@
 import HeroContent from "../login/components/HeroContent";
-import Register from "./components/register";
+import Register from "./components/Register";
 
 export default function CreateAccount() {
   return (
