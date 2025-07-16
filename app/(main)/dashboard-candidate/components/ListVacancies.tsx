@@ -40,8 +40,8 @@ export default function ListVacancies() {
       try {
         const data = await listJobVacancies();
         const mapped = data
-          .filter((v) => typeof v.id === "number")
-          .map((v) => ({
+          .filter((v: any) => typeof v.id === "number")
+          .map((v: any) => ({
             id: v.id as number,
             jobName: v.jobName,
             jobPlace: v.jobPlace,
@@ -54,7 +54,7 @@ export default function ListVacancies() {
 
         if (user?.uid) {
           const statusResults = await Promise.all(
-            mapped.map(async (vacancy) => {
+            mapped.map(async (vacancy: any) => {
               const status = await getApplicationStatusForCandidate(
                 vacancy.id,
                 user.uid
