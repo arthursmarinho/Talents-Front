@@ -119,12 +119,12 @@ export default function CreatedVacancies() {
         />
       </div>
       {isLoading ? (
-        <div className="flex flex-col gap-4 mt-12">
+        <div className="gap-4 mt-12">
           <Skeleton className="w-40 h-4 rounded mb-2" />
           <Skeleton className="w-56 h-4 rounded" />
         </div>
       ) : (
-        <div className="flex flex-col gap-4 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-12">
           {filteredVacancies.map((item) => (
             <Card
               key={item.id}

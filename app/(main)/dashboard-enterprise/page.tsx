@@ -8,7 +8,7 @@ export default function DashboardEnterprise() {
     <div>
       <ProtectedEnterprisePage>
         <Header />
-        <div className="grid grid-cols-1 md:grid-cols-2">
+        <div>
           <div className="p-6 md:p-24">
             <h1 className="font-bold text-2xl mb-8">
               <CreateJobVacancy />

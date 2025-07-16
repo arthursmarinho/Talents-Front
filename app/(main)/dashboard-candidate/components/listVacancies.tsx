@@ -97,7 +97,7 @@ export default function ListVacancies() {
   const selectedVacancy = vacancies.find((v) => v.id === selectedVacancyId);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6  ">
       <div className="w-full max-w-md mx-auto">
         <Input
           type="text"
@@ -135,7 +135,7 @@ export default function ListVacancies() {
           <Skeleton className="w-56 h-4 rounded" />
         </div>
       ) : (
-        <div className="flex flex-col gap-4 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-12 w-full px-4">
           {filteredVacancies.map((item) => (
             <Card
               key={item.id}

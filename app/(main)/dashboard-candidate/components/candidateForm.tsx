@@ -7,10 +7,10 @@ import { toast } from "sonner";
 import { useUser } from "@/context/UserContext";
 import { getApplicationStatusForCandidate } from "@/services/jobVacancyService";
 import { ApplicationStatus } from "@/interfaces/JobApplication";
+import { uploadResume } from "@/services/jobApplicationService";
 
 export default function CandidateForm({ jobId }: { jobId: number }) {
   const [file, setFile] = useState<File | null>(null);
-  const [candidateId, setCandidateId] = useState("");
   const [applicationStatus, setApplicationStatus] =
     useState<ApplicationStatus | null>(null);
   const [isLoadingStatus, setIsLoadingStatus] = useState(true);
@@ -56,27 +56,14 @@ export default function CandidateForm({ jobId }: { jobId: number }) {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("resume", file);
-    formData.append("jobId", jobId.toString());
-    formData.append("candidateId", user.uid);
-
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/job-applications/upload`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-
-    if (res.ok) {
+    try {
+      await uploadResume(jobId, user.uid, file);
       toast.success("Currículo enviado com sucesso!");
       setFile(null);
       setApplicationStatus(ApplicationStatus.PENDING);
-    } else {
-      const errorData = await res.json();
-      toast.error(errorData.message || "Erro ao enviar currículo.");
-      console.error("Erro ao enviar currículo:", errorData);
+    } catch (error: any) {
+      console.error("Erro ao enviar currículo:", error);
+      toast.error(error.response?.data?.message || "Erro ao enviar currículo.");
     }
   }
 
@@ -110,9 +97,6 @@ export default function CandidateForm({ jobId }: { jobId: number }) {
           }`}
         >
           {getStatusText(applicationStatus)}
-          {applicationStatus === ApplicationStatus.REJECTED && (
-            <p className="text-sm mt-1"></p>
-          )}
         </div>
       ) : (
         <>
