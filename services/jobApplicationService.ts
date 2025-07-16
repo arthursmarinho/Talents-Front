@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "./api";
 
 export interface CreateJobApplicationDto {
   jobId: number;
@@ -7,10 +7,7 @@ export interface CreateJobApplicationDto {
 }
 
 export const createJobApplication = async (data: CreateJobApplicationDto) => {
-  const response = await axios.post(
-    `${process.env.NEXT_PUBLIC_API_URL}/job-applications`,
-    data
-  );
+  const response = await api.post("/job-applications", data);
   return response.data;
 };
 
@@ -24,15 +21,11 @@ export const uploadResume = async (
   formData.append("jobId", jobId.toString());
   formData.append("candidateId", candidateId);
 
-  const response = await axios.post(
-    `${process.env.NEXT_PUBLIC_API_URL}/job-applications/upload`,
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  );
+  const response = await api.post("/job-applications/upload", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 
   return response.data;
 };
