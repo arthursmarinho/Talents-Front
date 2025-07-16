@@ -2,7 +2,7 @@
 
 import { useUser } from "@/context/UserContext";
 import { userTypeLabel } from "@/enums/UserType";
-import Config from "./config";
+import Config from "./Config";
 
 export default function Header() {
   const { user } = useUser();

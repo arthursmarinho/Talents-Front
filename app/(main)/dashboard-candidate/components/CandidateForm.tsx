@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/shadcnui/button";
+import { Input } from "@/components/shadcnui/input";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { useUser } from "@/context/UserContext";

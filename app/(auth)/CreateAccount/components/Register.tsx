@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/shadcnui/button";
+import { Input } from "@/components/shadcnui/input";
 import { auth, db } from "@/lib/firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
@@ -15,7 +15,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/shadcnui/select";
 import { passwordRequirements, schema } from "@/validators/PasswordValidator";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";

@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/shadcnui/button";
+import { Input } from "@/components/shadcnui/input";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { createJobVacancy } from "@/services/jobVacancyService";

@@ -10,6 +10,7 @@ const schema = z.object({
     .regex(/[0-9]/, "Deve conter ao menos um número")
     .regex(/[^a-zA-Z0-9]/, "Deve conter ao menos um caractere especial"),
 });
+
 const passwordRequirements = [
   {
     label: "Mínimo de 8 caracteres",

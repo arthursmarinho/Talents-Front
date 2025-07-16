@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "@/lib/firebase/firebase";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Input } from "@/components/shadcnui/input";
+import { Button } from "@/components/shadcnui/button";
 import { toast } from "sonner";
 import Link from "next/link";
 

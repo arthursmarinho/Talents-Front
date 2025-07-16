@@ -1,7 +1,7 @@
 import ProtectedEnterprisePage from "@/middleware/ProtectedEnterprisePage";
-import Header from "../components/header";
-import CreateJobVacancy from "./components/createJobVacancy";
-import CreatedVacancies from "./components/createdVacancies";
+import Header from "../components/Header";
+import CreateJobVacancy from "./components/CreateJobVacancy";
+import CreatedVacancies from "./components/CreatedVacancies";
 
 export default function DashboardEnterprise() {
   return (

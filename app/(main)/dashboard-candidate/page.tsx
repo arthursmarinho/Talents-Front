@@ -1,6 +1,6 @@
 import ProtectedCandidate from "@/middleware/ProtectedCandidatePage";
-import Header from "../components/header";
-import ListVacancies from "./components/listVacancies";
+import Header from "../components/Header";
+import ListVacancies from "./components/ListVacancies";
 
 export default function DashboardCandidate() {
   return (

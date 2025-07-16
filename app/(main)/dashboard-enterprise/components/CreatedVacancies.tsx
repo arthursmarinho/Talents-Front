@@ -15,7 +15,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/shadcnui/card";
 import {
   Sheet,
   SheetContent,
@@ -23,13 +23,13 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
+} from "@/components/shadcnui/sheet";
+import { Button } from "@/components/shadcnui/button";
 import { Trash2, X, FileText, CheckCircle, XCircle } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/shadcnui/input";
 import { JobApplication, ApplicationStatus } from "@/interfaces/JobApplication";
 import { toast } from "sonner";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/components/shadcnui/skeleton";
 
 export default function CreatedVacancies() {
   const [vacancies, setVacancies] = useState<JobVacancyWithApplications[]>([]);

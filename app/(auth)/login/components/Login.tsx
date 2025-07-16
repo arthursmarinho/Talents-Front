@@ -3,13 +3,14 @@
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, db } from "@/lib/firebase/firebase";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/shadcnui/button";
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/shadcnui/input";
 import Link from "next/link";
 import { doc, getDoc } from "firebase/firestore";
 import { toast } from "sonner";
 import { Eye, EyeOff } from "lucide-react";
+import Cookies from "js-cookie";
 
 export default function LoginContent() {
   const [email, setEmail] = useState("");
@@ -32,12 +33,17 @@ export default function LoginContent() {
 
       if (docSnap.exists()) {
         const userData = docSnap.data();
+
+        if (userData?.type !== "enterprise" && userData?.type !== "candidate") {
+          throw new Error();
+        }
+
+        Cookies.set("token", (await userCredential.user.getIdToken()) ?? "");
+
         if (userData?.type === "enterprise") {
           router.push("/dashboard-enterprise");
         } else if (userData?.type === "candidate") {
           router.push("/dashboard-candidate");
-        } else {
-          toast("Email ou senha invalidos.");
         }
       }
     } catch (error) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/shadcnui/input";
 import { Vacancies } from "@/interfaces/Vacancies";
 import {
   listJobVacancies,
@@ -13,11 +13,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+} from "@/components/shadcnui/card";
+import { Button } from "@/components/shadcnui/button";
 import { X } from "lucide-react";
-import CandidateForm from "./candidateForm";
-import { Skeleton } from "@/components/ui/skeleton";
+import CandidateForm from "./CandidateForm";
+import { Skeleton } from "@/components/shadcnui/skeleton";
 import { ApplicationStatus } from "@/interfaces/JobApplication";
 import { useUser } from "@/context/UserContext";
 

@@ -1,9 +1,7 @@
 "use client";
 
-import { signOut } from "firebase/auth";
-import { auth } from "@/lib/firebase/firebase";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/shadcnui/button";
 import {
   Sheet,
   SheetContent,
@@ -11,10 +9,10 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { Cog } from "lucide-react";
+} from "@/components/shadcnui/sheet";
+import { CogIcon } from "lucide-react";
 import Link from "next/link";
-import Profile from "./profile";
+import Profile from "./Profile";
 
 export default function Config() {
   const router = useRouter();
@@ -24,7 +22,7 @@ export default function Config() {
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="ghost">
-            <Cog />
+            <CogIcon />
           </Button>
         </SheetTrigger>
         <SheetContent>
