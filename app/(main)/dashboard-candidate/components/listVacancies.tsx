@@ -2,7 +2,10 @@
 
 import { Input } from "@/components/ui/input";
 import { Vacancies } from "@/interfaces/Vacancies";
-import { listJobVacancies } from "@/services/jobVacancyService";
+import {
+  listJobVacancies,
+  getApplicationStatusForCandidate,
+} from "@/services/jobVacancyService";
 import { useEffect, useState } from "react";
 import {
   Card,
@@ -15,6 +18,8 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import CandidateForm from "./candidateForm";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ApplicationStatus } from "@/interfaces/JobApplication";
+import { useUser } from "@/context/UserContext";
 
 export default function ListVacancies() {
   const [vacancies, setVacancies] = useState<Vacancies[]>([]);
@@ -23,13 +28,17 @@ export default function ListVacancies() {
   );
   const [searchBar, setSearchBar] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const filteredVacancies = vacancies.filter((v) =>
-    v.jobName.toLowerCase().includes(searchBar.toLowerCase())
+  const [statusMap, setStatusMap] = useState<Record<number, ApplicationStatus>>(
+    {}
   );
+  const [filter, setFilter] = useState<"ALL" | "APPROVED" | "REJECTED">("ALL");
+
+  const { user } = useUser();
 
   useEffect(() => {
-    listJobVacancies()
-      .then((data) => {
+    const fetchVacanciesAndStatus = async () => {
+      try {
+        const data = await listJobVacancies();
         const mapped = data
           .filter((v) => typeof v.id === "number")
           .map((v) => ({
@@ -40,15 +49,50 @@ export default function ListVacancies() {
             jobDesc: v.jobDesc,
             createdBy: v.createdBy,
           }));
-        setVacancies(mapped);
-      })
-      .catch((err) => console.error("Erro ao buscar vagas:", err));
-  }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 5000);
-    return () => clearTimeout(timer);
-  }, []);
+        setVacancies(mapped);
+
+        if (user?.uid) {
+          const statusResults = await Promise.all(
+            mapped.map(async (vacancy) => {
+              const status = await getApplicationStatusForCandidate(
+                vacancy.id,
+                user.uid
+              );
+              return { jobId: vacancy.id, status: status?.status ?? null };
+            })
+          );
+
+          const statusObj: Record<number, ApplicationStatus> = {};
+          statusResults.forEach(({ jobId, status }) => {
+            if (status) statusObj[jobId] = status;
+          });
+
+          setStatusMap(statusObj);
+        }
+      } catch (err) {
+        console.error("Erro ao buscar vagas ou status:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchVacanciesAndStatus();
+  }, [user?.uid]);
+
+  const filteredVacancies = vacancies.filter((v) => {
+    const matchesSearch = v.jobName
+      .toLowerCase()
+      .includes(searchBar.toLowerCase());
+    const status = statusMap[v.id];
+
+    if (filter === "ALL") return matchesSearch;
+    return (
+      matchesSearch &&
+      ((filter === "APPROVED" && status === ApplicationStatus.APPROVED) ||
+        (filter === "REJECTED" && status === ApplicationStatus.REJECTED))
+    );
+  });
 
   const selectedVacancy = vacancies.find((v) => v.id === selectedVacancyId);
 
@@ -62,7 +106,29 @@ export default function ListVacancies() {
           onChange={(e) => setSearchBar(e.target.value)}
           className="w-full px-4 py-2 border rounded mb-4"
         />
+
+        <div className="flex gap-2 justify-center mt-4">
+          <Button
+            variant={filter === "ALL" ? "default" : "outline"}
+            onClick={() => setFilter("ALL")}
+          >
+            Todas
+          </Button>
+          <Button
+            variant={filter === "APPROVED" ? "default" : "outline"}
+            onClick={() => setFilter("APPROVED")}
+          >
+            Aprovadas
+          </Button>
+          <Button
+            variant={filter === "REJECTED" ? "default" : "outline"}
+            onClick={() => setFilter("REJECTED")}
+          >
+            Recusadas
+          </Button>
+        </div>
       </div>
+
       {isLoading ? (
         <div className="flex flex-col gap-4 mt-12">
           <Skeleton className="w-40 h-4 rounded mb-2" />
@@ -84,7 +150,7 @@ export default function ListVacancies() {
                 {item.jobReq}
               </CardFooter>
             </Card>
-          ))}{" "}
+          ))}
         </div>
       )}
 
