@@ -1,36 +1,5 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+O frontend do projeto Talents foi desenvolvido com o objetivo de oferecer uma plataforma clara, funcional e acessível tanto para empresas quanto para candidatos. A aplicação permite que empresas publiquem vagas de emprego e que candidatos se candidatem diretamente, enviando seus currículos em formato PDF. O sistema conta com cadastro e login de usuários utilizando e-mail e senha, além da possibilidade de redefinição de senha por e-mail. Empresas têm acesso a uma área dedicada onde podem criar, visualizar e excluir vagas, enquanto os candidatos possuem uma área específica para visualizar todas as vagas disponíveis e se candidatar de forma prática. Após o envio do currículo, a empresa pode visualizar a lista de candidatos, fazer o download do arquivo e decidir se cada candidatura será aprovada ou não. A interface é completamente responsiva, adaptando-se bem a diferentes tamanhos de tela para garantir uma boa experiência em qualquer dispositivo.
 
-## Getting Started
+Na parte técnica, o frontend foi construído com Next.js e TypeScript, proporcionando uma base sólida, bem organizada e segura, com tipagem estática para reduzir erros e melhorar a legibilidade do código. O estilo visual foi implementado com Tailwind CSS, utilizando um sistema de componentes reutilizáveis como cards, botões e folhas laterais (sheets), o que garante consistência e produtividade no desenvolvimento. A autenticação é gerenciada pelo Firebase, com o contexto de usuário acessível globalmente na aplicação. A comunicação com o backend é feita por meio de services, centralizando as requisições e evitando a exposição direta de URLs. A navegação entre páginas é protegida por middlewares que impedem o acesso a rotas privadas por usuários não autorizados. Além disso, são utilizados hooks personalizados para controle de estado e efeitos colaterais, com feedbacks visuais usando toasts e carregamentos condicionais. O resultado é uma aplicação robusta, organizada e centrada na experiência do usuário, com uma estrutura escalável e fácil de manter.
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+O link para o Back-End, desenvolvido em NestJs: https://github.com/arthursmarinho/Talents-Back
