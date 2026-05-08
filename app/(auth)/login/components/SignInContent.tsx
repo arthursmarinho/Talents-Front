@@ -27,8 +27,7 @@ export const SignInContent = () => {
               candidato@talents.com
             </p>
             <p>
-              <span className="font-medium">Empresa:</span>{" "}
-              empresa@talents.com.br
+              <span className="font-medium">Empresa:</span> empresa@talents.com
             </p>
             <p>
               <span className="font-medium">Senha (ambos):</span> 123456
