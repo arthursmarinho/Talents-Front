@@ -1,0 +1,13 @@
+name: Daily render ping
+
+on:
+  schedule:
+    - cron: '*/3 * * * *'
+  workflow_dispatch: 
+
+jobs:
+  curl-website:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run cURL on Website
+        run: curl -I https://talents-front.onrender.com/
